@@ -1,2 +1,1 @@
-# Tucil1_13523028
-Tugas Kecil 1 Strategi Algoritma : IQ Puzzler Pro Solver
+# Tugas Kecil 1 Strategi Algoritma : Penyelesaian IQ Puzzler Pro dengan Algoritma Brute Force
