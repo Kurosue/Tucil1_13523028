@@ -1,0 +1,28 @@
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            Scanner fileparser = new Scanner(new File("./test/test.txt"));
+            
+            String[] tokens = fileparser.nextLine().split(" ");
+            N, M, P = tokens
+            
+            tokens = fileparser.nextline();
+            mode = tokens[0];
+
+            for(int i = 0; i++; i < P) {
+                tokens = fileparser.nextLine().split(" ");
+                String last = tokens[0];
+                System.out.println(last);
+            }
+
+            fileparser.close(); // Close the scanner to prevent resource leak
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        }
+    }
+}
+
