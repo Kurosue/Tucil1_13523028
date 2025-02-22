@@ -24,7 +24,7 @@ public class Main {
         }
 
         double duration = (endTime - startTime) / 1_000_000_000.0; // Ubah ke detik
-        System.out.println(String.format("\nWaktu Eksekusi = %.5f s", duration));
+        System.out.println(String.format("\nWaktu Eksekusi = %.5f s\n", duration));
     }
 
     private static void readInput() {

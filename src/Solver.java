@@ -20,12 +20,11 @@ public class Solver {
                     if (br.checkValidBlock(i, j, bl[blockIndex].calculatedPossBlocks[L])) {
                         br.placeBlocks(i, j, bl[blockIndex].calculatedPossBlocks[L]);
 
-                        // Recursively try to place the next block
+                        // Rekursi untuk mencoba blok selanjutnya
                         if (solveBruteForce(bl, br, blockIndex + 1, counter)) {
                             return true;
                         }
-
-                        // Backtrack by removing the block
+                        // jika tidak ada blok sesuai, maka blok skarang dihapus dan mencoba kemungkinan selanjutnya
                         br.removeBlocks(i, j, bl[blockIndex].calculatedPossBlocks[L]);
                     }
                 }

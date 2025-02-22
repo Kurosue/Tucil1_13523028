@@ -24,12 +24,14 @@ public class Board {
 
     public Board(int N, int M, String mode, String[] maplist) {
         board = new String[N][M];
+        // Jika mode custom
         if(mode.equals("CUSTOM"))
         {  
             for (int i = 0; i < N; i++)
             {
                 for (int j = 0; j < M; j++)
                 {
+                    // Jika character X(sesuai spek) maka sel bisa diisi sehingga diganti dengan karakter .
                     if(maplist[i].charAt(j) == 'X')
                     {
                         board[i][j] = ".";
@@ -43,6 +45,7 @@ public class Board {
         }
         else
         {
+            // Jika default
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
                     board[i][j] = ".";
@@ -53,6 +56,7 @@ public class Board {
     }
 
     public boolean checkValidBlock(int x, int y, String[][] bl) {
+        // Cek apakak blok valid (dapat diletakkan) pada x dan y dalam board
         for (int i = 0; i < bl.length; i++) {
             for (int j = 0; j < bl[0].length; j++) {
                 if (!bl[i][j].equals(".")) {
@@ -69,6 +73,7 @@ public class Board {
     }
 
     public boolean checkFull() {
+        // Cek kondisi menang atau jika board telah full (tidak ada character .)
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 if (board[i][j].equals(".")) {
