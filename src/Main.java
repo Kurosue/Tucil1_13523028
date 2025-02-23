@@ -7,6 +7,7 @@ public class Main {
     private static int N, M, P;
     private static String mode;
     private static Block[] blocks;
+    private static char[] usedBlock;
     private static Board board;
 
     public static void main(String[] args) {
@@ -36,6 +37,11 @@ public class Main {
 
             // Mengambil nilai N, M, P dari file dengan split menjadi list
             String[] tokens = fileparser.nextLine().split(" ");
+            if(tokens.length != 3)
+            {
+                System.out.println("Input Tidak Valid");
+                System.exit(1);
+            }
             N = Integer.parseInt(tokens[0]);
             M = Integer.parseInt(tokens[1]);
             P = Integer.parseInt(tokens[2]);
@@ -52,9 +58,11 @@ public class Main {
             }
 
             board = new Board(N, M, mode, mapArray);
+            System.out.println("\n[+] Initialized Board Succeed !");
             
             // Mengambil blok sebanyak P
             blocks = new Block[P];
+            usedBlock = new char[P];
             int i = 0;
             String firstLine = fileparser.nextLine();
 
@@ -63,6 +71,13 @@ public class Main {
 
                 blockLines.add(firstLine);
                 char charBlok = firstLine.trim().charAt(0);
+                // mencegah adanya 2 blok dengan karakter yang sama, jika ada yang sama, program langsung keluar
+                if(checkUsedBlock(charBlok))
+                {
+                    System.out.println("Blok " + charBlok + " sudah digunakan");
+                    System.exit(1);
+                }
+                usedBlock[i] = charBlok;
 
                 while (fileparser.hasNextLine()) {
                     String nextLine = fileparser.nextLine();
@@ -81,10 +96,22 @@ public class Main {
                 blocks[i] = new Block(blockArray);
                 i++;
             }
+            System.out.println("\n[+] Compute All Block Position Possibilites Succeed");
 
             fileparser.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File Tidak Ditemukan : " + e.getMessage());
+            System.out.println("Error : " + e.getMessage());
         }
+    }
+
+    private static boolean checkUsedBlock(char c)
+    {
+        for (int i = 0; i < usedBlock.length; i++) {
+            if(usedBlock[i] == c)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -61,7 +61,7 @@ public class Block {
     {
         int rows = blk.length;
         int cols = blk[0].length;
-        int maxDim = Math.max(rows, cols);
+        int maxDim = Math.max(rows, cols) + 1;
         String[][] centered = new String[maxDim][maxDim];
 
         for (int i = 0; i < maxDim; i++) {
