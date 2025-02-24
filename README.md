@@ -11,9 +11,9 @@ Sebuah program untuk mendapatkan solusi dari permainan IQ Puzzler Pro menggunaka
 
 <h2 id="how-to-run">Cara Menggunakan Program</h2>
 1. **Clone this repo:**
-   ```bash
-   git clone https://github.com/Kurosue/Tucil1_13523028.git
-   ```
+```bash
+git clone https://github.com/Kurosue/Tucil1_13523028.git
+```
 2. **Navigate to the Tucil1_13523028 directory of the program by running the following command in the terminal:**
    ```bash
    cd Tucil1_13523028
