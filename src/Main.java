@@ -29,11 +29,11 @@ public class Main {
         System.out.println(String.format("\nWaktu Eksekusi = %.5f s\n", duration));
 
         // Pilihan untuk menyimpan hasil atau tidak
-        System.out.print("Apakah anda ingin menyimpan hasil ? (Y/N) : ");
-        Scanner input = new Scanner(System.in);
-        String save = input.next();
         if(solved)
         {
+            System.out.print("Apakah anda ingin menyimpan hasil ? (Y/N) : ");
+            Scanner input = new Scanner(System.in);
+            String save = input.next();
             if(save.equals("Y") || save.equals("y"))
             {
                 System.out.print("\nApakah hasil ingin disimpan dalam bentku gambar ? (Y/N) : ");
@@ -127,6 +127,7 @@ public class Main {
             fileparser.close();
         } catch (FileNotFoundException e) {
             System.out.println("Error : " + e.getMessage());
+            System.exit(0);
         }
     }
 
