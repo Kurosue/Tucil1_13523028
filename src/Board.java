@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -12,60 +13,25 @@ public class Board {
     public String[][] board;
     private static final String RESET = "\033[0m";
     private static final Color[] COLORS = {
-        Color.RED, // Red
-        Color.GREEN, // Green
-        Color.YELLOW, // Yellow
-        Color.BLUE, // Blue
-        Color.MAGENTA, // Magenta
-        Color.CYAN, // Cyan
-        new Color(128, 0, 128),  // Bright Purple
-        new Color(255, 0, 0), // Bright Red
-        new Color(0, 255, 0), // Bright Green
-        new Color(255, 255, 0), // Bright Yellow
-        new Color(0, 0, 255), // Bright Blue
-        new Color(255, 0, 255), // Bright Magenta
-        new Color(0, 255, 255), // Bright Cyan
-        new Color(128, 128, 128), // Bright Black (Gray)
-        new Color(255, 165, 0), // Bright Orange
-        new Color(255, 140, 0), // Orange
-        new Color(255, 69, 0), // Dark Orange
-        new Color(255, 255, 224), // Light Yellow
-        new Color(144, 238, 144), // Light Green
-        new Color(173, 216, 230), // Light Blue
-        new Color(255, 182, 193), // Light Magenta
-        new Color(224, 255, 255), // Light Cyan
-        new Color(255, 0, 0), // Bright Red
-        new Color(0, 255, 0), // Bright Green
-        new Color(255, 255, 0), // Bright Yellow
-        new Color(0, 0, 255), // Bright Blue
-        new Color(255, 0, 255), // Bright Magenta
+        Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE, Color.MAGENTA, Color.CYAN,
+        new Color(128, 0, 128), new Color(255, 0, 0), new Color(0, 255, 0), new Color(255, 255, 0),
+        new Color(0, 0, 255), new Color(255, 0, 255), new Color(0, 255, 255), new Color(128, 128, 128),
+        new Color(255, 165, 0), new Color(255, 140, 0), new Color(255, 69, 0), new Color(255, 255, 224),
+        new Color(144, 238, 144), new Color(173, 216, 230), new Color(255, 182, 193),
+        new Color(224, 255, 255), new Color(255, 0, 0), new Color(0, 255, 0), new Color(255, 255, 0),
+        new Color(0, 0, 255), new Color(255, 0, 255)
     };
     private Map<String, String> colorMap;
 
     public Board(int N, int M, String mode, String[] maplist) {
         board = new String[N][M];
-        // Jika mode custom
-        if(mode.equals("CUSTOM"))
-        {  
-            for (int i = 0; i < N; i++)
-            {
-                for (int j = 0; j < M; j++)
-                {
-                    // Jika character X(sesuai spek) maka sel bisa diisi sehingga diganti dengan karakter .
-                    if(maplist[i].charAt(j) == 'X')
-                    {
-                        board[i][j] = ".";
-                    }
-                    else
-                    {
-                        board[i][j] = "*";
-                    }
+        if (mode.equals("CUSTOM")) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    board[i][j] = (maplist[i].charAt(j) == 'X') ? "." : "*";
                 }
             }
-        }
-        else
-        {
-            // Jika default
+        } else {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
                     board[i][j] = ".";
@@ -75,56 +41,23 @@ public class Board {
         colorMap = new HashMap<>();
     }
 
-    public boolean checkValidBlock(int x, int y, String[][] bl) {
-        // Cek apakak blok valid (dapat diletakkan) pada x dan y dalam board
-        for (int i = 0; i < bl.length; i++) {
-            for (int j = 0; j < bl[0].length; j++) {
-                if (!bl[i][j].equals(".")) {
-                    if (x + i >= board.length || y + j >= board[0].length) {
-                        return false;
-                    }
-                    if (!board[x + i][y + j].equals(".")) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    public boolean checkFull() {
-        // Cek kondisi menang atau jika board telah full (tidak ada character .)
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (board[i][j].equals(".")) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    
-    public void saveBoard(String fileName)
-    {
-        // Menyimpan board ke file eksternal
-        try {
-            java.io.FileWriter myWriter = new java.io.FileWriter(fileName);
-            for (int i = 0; i < board.length; i++) {
-                for (int j = 0; j < board[0].length; j++) {
-                    myWriter.write(board[i][j]);
+    public void saveBoard(String fileName) {
+        try (FileWriter myWriter = new FileWriter(fileName)) {
+            for (String[] row : board) {
+                for (String cell : row) {
+                    myWriter.write(cell);
                 }
                 myWriter.write("\n");
             }
-            myWriter.close();
-            System.out.println("Berhasil menyimpan board ke " + fileName);
-        } catch (java.io.IOException e) {
-            System.out.println("Error : " + e.getMessage());
+            System.out.println("Board successfully saved to " + new File(fileName).getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error saving board: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Membuat gambar sesuai kondisi board dalam file
     public void saveBoardInImage(String fileName) {
-        int cellSize = 20; 
+        int cellSize = 20;
         int width = board[0].length * cellSize;
         int height = board.length * cellSize;
 
@@ -135,14 +68,13 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
                 String cell = board[i][j];
+                int index = cell.charAt(0) - 'A';
                 if (cell.equals(".")) {
                     g.setColor(Color.WHITE);
+                } else if (index >= 0 && index < COLORS.length) {
+                    g.setColor(COLORS[index]);
                 } else {
-                    if (cell.matches("[A-Z]")) {
-                        g.setColor(COLORS[cell.charAt(0) - 'A']);
-                    } else {
-                        g.setColor(Color.BLACK); 
-                    }
+                    g.setColor(Color.BLACK);
                 }
                 g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
                 g.setColor(Color.BLACK);
@@ -151,13 +83,16 @@ public class Board {
                 g.drawString(cell, j * cellSize + 5, i * cellSize + cellSize - 5);
             }
         }
-
         g.dispose();
+
         try {
-            ImageIO.write(image, "jpg", new File(fileName));
-            System.out.println("Berhasil menyimpan board ke " + fileName);
+            File outputFile = new File(fileName);
+            outputFile.getParentFile().mkdirs(); // Ensure directories exist
+            ImageIO.write(image, "jpg", outputFile);
+            System.out.println("Image successfully saved to " + outputFile.getAbsolutePath());
         } catch (IOException e) {
-            System.out.println("Error : " + e.getMessage());
+            System.err.println("Error saving board image: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -192,6 +127,34 @@ public class Board {
         return "\033[37m"; // Default to white
     }
 
+    public boolean checkValidBlock(int x, int y, String[][] bl) {
+        // Cek apakak blok valid (dapat diletakkan) pada x dan y dalam board
+        for (int i = 0; i < bl.length; i++) {
+            for (int j = 0; j < bl[0].length; j++) {
+                if (!bl[i][j].equals(".")) {
+                    if (x + i >= board.length || y + j >= board[0].length) {
+                        return false;
+                    }
+                    if (!board[x + i][y + j].equals(".")) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean checkFull() {
+        // Cek kondisi menang atau jika board telah full (tidak ada character .)
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j].equals(".")) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void placeBlocks(int i, int j, String[][] bl) {
         for (int x = 0; x < bl.length; x++) {
             for (int y = 0; y < bl[0].length; y++) {

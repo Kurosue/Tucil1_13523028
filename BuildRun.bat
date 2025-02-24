@@ -5,7 +5,7 @@ set BIN_DIR=bin
 set MAIN_CLASS=Main
 
 rem Compile Code
-javac -d "%BIN_DIR%" "%SRC_DIR%\*.java"
+javac --release 8 -d "%BIN_DIR%" "%SRC_DIR%\*.java"
 
 if %errorlevel% equ 0 (
     echo Compilation successful!

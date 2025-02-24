@@ -32,21 +32,24 @@ public class Main {
         System.out.print("Apakah anda ingin menyimpan hasil ? (Y/N) : ");
         Scanner input = new Scanner(System.in);
         String save = input.next();
-        if(save.equals("Y") || save.equals("y"))
+        if(solved)
         {
-            System.out.print("\nApakah hasil ingin disimpan dalam bentku gambar ? (Y/N) : ");
-            String saveMode = input.next();
-            if(saveMode.equals("Y") || saveMode.equals("y"))
+            if(save.equals("Y") || save.equals("y"))
             {
-                System.out.print("Masukkan nama file : ");
-                String fileName = input.next();
-                board.saveBoard(fileName);
-            }
-            else
-            {
-                System.out.print("Masukkan nama file : ");
-                String fileName = input.next();
-                board.saveBoardInImage(fileName);
+                System.out.print("\nApakah hasil ingin disimpan dalam bentku gambar ? (Y/N) : ");
+                String saveMode = input.next();
+                if(saveMode.equals("Y") || saveMode.equals("y"))
+                {
+                    System.out.print("Masukkan nama file : ");
+                    String fileName = "test/" + input.next();
+                    board.saveBoardInImage(fileName);
+                }
+                else
+                {
+                    System.out.print("Masukkan nama file : ");
+                    String fileName = "test/" + input.next();
+                    board.saveBoard(fileName);
+                }
             }
         }
     }
