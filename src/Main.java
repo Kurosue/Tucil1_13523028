@@ -13,6 +13,7 @@ public class Main {
     public static void main(String[] args) {
         readInput();
 
+
         Solver solver = new Solver();
 
         long startTime = System.nanoTime();
@@ -26,6 +27,28 @@ public class Main {
 
         double duration = (endTime - startTime) / 1_000_000_000.0; // Ubah ke detik
         System.out.println(String.format("\nWaktu Eksekusi = %.5f s\n", duration));
+
+        // Pilihan untuk menyimpan hasil atau tidak
+        System.out.print("Apakah anda ingin menyimpan hasil ? (Y/N) : ");
+        Scanner input = new Scanner(System.in);
+        String save = input.next();
+        if(save.equals("Y") || save.equals("y"))
+        {
+            System.out.print("\nApakah hasil ingin disimpan dalam bentku gambar ? (Y/N) : ");
+            String saveMode = input.next();
+            if(saveMode.equals("Y") || saveMode.equals("y"))
+            {
+                System.out.print("Masukkan nama file : ");
+                String fileName = input.next();
+                board.saveBoard(fileName);
+            }
+            else
+            {
+                System.out.print("Masukkan nama file : ");
+                String fileName = input.next();
+                board.saveBoardInImage(fileName);
+            }
+        }
     }
 
     private static void readInput() {
@@ -58,7 +81,7 @@ public class Main {
             }
 
             board = new Board(N, M, mode, mapArray);
-            System.out.println("\n[+] Initialized Board Succeed !");
+            System.out.println("[+] Inisialisasi Papan berhasil !");
             
             // Mengambil blok sebanyak P
             blocks = new Block[P];
@@ -96,7 +119,7 @@ public class Main {
                 blocks[i] = new Block(blockArray);
                 i++;
             }
-            System.out.println("\n[+] Compute All Block Position Possibilites Succeed");
+            System.out.println("[+] Membuat semua kemungkinan blok berhasil !");
 
             fileparser.close();
         } catch (FileNotFoundException e) {
